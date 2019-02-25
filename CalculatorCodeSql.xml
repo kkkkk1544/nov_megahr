@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Calculator">
+<typeAlias alias="CalculatorDto"	type="bvehr.megahr.pay.calculator.CalculatorDto" />
+
+<!-- 수당항목 조회 -->
+<select id="selectList" parameterClass="CalculatorDto" resultClass="CalculatorDto">
+<include refid="Cmm.pageOraclePrefix" /><![CDATA[
+select p1.rowid   	row_id
+     , p1.*
+  from is_py21 p1
+ where 1=1
+   and org_id = #ssn_org_id#
+   and compycd = #srch_compycd#
+]]>
+<dynamic>
+	<!--
+	<isNotEmpty property="srch_compycd" prepend="and"><![CDATA[
+		compycd = #srch_compycd#
+	]]></isNotEmpty>
+	-->
+	<isNotEmpty property="srch_allowcd" prepend="and"><![CDATA[
+		allowcd = #srch_allowcd#
+	]]></isNotEmpty>
+	<isNotEmpty property="srch_allownm" prepend="and"><![CDATA[
+		allownm like '%'||#srch_allownm#||'%'
+	]]></isNotEmpty>
+	<isNotEmpty property="srch_pay_class" prepend="and"><![CDATA[
+		pay_class = #srch_pay_class#
+	]]></isNotEmpty>
+	<!--
+	<isNotEqual property="srch_pay_class" compareValue="ALL" prepend="and"><![CDATA[
+		pay_class = #srch_pay_class#
+	]]></isNotEqual>
+	-->
+</dynamic>
+<![CDATA[
+ ORDER BY p1.sort
+         ,p1.allowcd
+]]><include refid="Cmm.pageOracleSuffix" /></select>
+
+<!-- 저장 -->
+<insert id="insert" parameterClass="CalculatorDto"><![CDATA[
+insert into is_py21 (
+	  org_id
+	, compycd
+	, allowcd
+	, allownm
+	, start_mth
+	, end_mth
+	, calc_method
+	, description
+	, calc_order
+	, normally
+	, allowed
+	, ret_apply
+	, retroact
+	, pay_class
+	, sort
+	, day_cal
+	, nontax_yn
+	, nontax_limit_amt
+	, base_allow_yn
+	, last_update_date
+	, last_updated_by
+	, creation_date
+	, created_by
+	, last_update_login
+) values (
+	  #org_id#
+	, #compycd#
+	, #allowcd#
+	, (select description from is_sy02 where codetp = 'S701' and codeid = #allowcd#)
+	, #start_mth#
+	, #end_mth#
+	, #calc_method#
+	, #description#
+	, #calc_order#
+	, #normally#
+	, #allowed#
+	, #ret_apply#
+	, #retroact#
+	, #pay_class#
+	, #sort#
+	, #day_cal#
+	, #nontax_yn#
+	, #nontax_limit_amt#
+	, #base_allow_yn#
+	, sysdate
+	, #ssn_user_id#
+	, sysdate
+	, #ssn_user_id#
+	, #ssn_user_id#
+)
+]]></insert>
+
+<!-- 업데이트 -->
+<update id="update" parameterClass="CalculatorDto"><![CDATA[
+update is_py21
+   set compycd				= #compycd#
+     , allownm				= (select description from is_sy02 where codetp = 'S701' and codeid = #allowcd#)
+	 , start_mth			= #start_mth#
+	 , end_mth				= #end_mth#
+	 , calc_method			= #calc_method#
+	 , description			= #description#
+	 , calc_order			= #calc_order#
+	 , normally				= #normally#
+	 , allowed				= #allowed#
+	 , ret_apply			= #ret_apply#
+	 , retroact				= #retroact#
+	 , pay_class			= #pay_class#
+	 , sort					= #sort#
+	 , day_cal				= #day_cal#
+	 , nontax_yn			= #nontax_yn#
+	 , nontax_limit_amt		= #nontax_limit_amt#
+	 , base_allow_yn		= #base_allow_yn#
+	 , last_update_date	 	= sysdate
+	 , last_updated_by	 	= #ssn_user_id#
+	 , last_update_login 	= #ssn_user_id#
+ where 1=1
+   and rowid 				= #row_id#
+]]></update>
+
+<!-- 삭제 -->
+<delete id="delete" parameterClass="CalculatorDto"><![CDATA[
+delete from is_py21
+ where 1=1
+   and rowid 				= #row_id#
+]]></delete>
+
+<!-- 수당항목 상세[대상자] -->
+<select id="selectDetail" parameterClass="CalculatorDto" resultClass="CalculatorDto">
+<include refid="Cmm.pageOraclePrefix" /><![CDATA[
+select p1.rowid   																	row_id
+     , p1.*
+     , is_fixd_pay_view.get_data(p1.org_id, p1.precede_num1, p1.key_value1, '1') 	code1
+     , is_fixd_pay_view.get_data(p1.org_id, p1.precede_num1, p1.key_value1, '2') 	data1
+     , is_fixd_pay_view.get_data(p1.org_id, p1.precede_num2, p1.key_value2, '1') 	code2
+     , is_fixd_pay_view.get_data(p1.org_id, p1.precede_num2, p1.key_value2, '2') 	data2
+     , is_fixd_pay_view.get_data(p1.org_id, p1.precede_num3, p1.key_value3, '1') 	code3
+     , is_fixd_pay_view.get_data(p1.org_id, p1.precede_num3, p1.key_value3, '2') 	data3
+  from bvk_pay_target_as	p1
+ where 1=1
+   and p1.org_id   = #ssn_org_id#
+   and p1.compycd  = #compycd#
+   and p1.as_class = 'ALLOW'
+   and p1.as_cd    = #allowcd#
+ order by p1.as_cd
+]]><include refid="Cmm.pageOracleSuffix" /></select>
+
+<!-- 수당항목 상세[수식] -->
+<select id="selectDetailCalc" parameterClass="CalculatorDto" resultClass="CalculatorDto">
+<![CDATA[
+select p1.*
+  from is_py21 p1
+ where 1=1
+   and p1.org_id = #ssn_org_id#
+   and p1.compycd = #compycd#
+   and p1.allowcd = #allowcd#
+ order by p1.allowcd
+]]></select>
+
+<!-- 설정항목유형 등록 -->
+<select id="typeMap" parameterClass="CalculatorDto" resultClass="cmmCodeDto"><![CDATA[
+select p.reg_type      codeid 
+     , p.precede_num   description
+  from is_py33 p
+ where 1=1
+   and p.org_id = #ssn_org_id#
+   and p.enabled = 'Y'
+ order by p.precede_num
+]]></select>
+
+<!-- PopUp으로 여러종류의 LOV를 조회 (개인별인 경우 대상자를, 직책별이면 직책리스트를 등등)하기 위해 쿼리를 가져옴 -->
+<parameterMap id="sqlMap" class="map">
+	<parameter property="p_org_id" 			javaType="integer" jdbcType="NUMBER" mode="IN" />
+	<parameter property="p_precede_num" 	javaType="string" jdbcType="NUMBER" mode="IN" />
+	<parameter property="p_sql" 			javaType="string" jdbcType="VARCHAR" mode="OUT" />
+</parameterMap>
+
+<procedure id="getRecordSql" parameterMap="sqlMap">
+	{ call is_fixd_pay_view.get_record_sql(?, ?, ?) }
+</procedure>
+
+<!-- 가져온 쿼리를 조회하려 LOV대상으로 만듬 -->
+<select id="selectWhereList" parameterClass="CalculatorDto" resultClass="CalculatorDto" remapResults="true">
+<include refid="Cmm.pageOraclePrefix" /><![CDATA[
+$query$
+where ref_value_1 like '%'||#ref_value_1#||'%'
+   or ref_value_2 like '%'||#ref_value_1#||'%'
+   or ref_value_3 like '%'||#ref_value_1#||'%'
+]]><include refid="Cmm.pageOracleSuffix" /></select>
+
+<!-- 고정수당/공제 설정값에서 사용하는 화면 필드 갯수 -->
+<select id="colspanCnt" parameterClass="CalculatorDto" resultClass="string"><![CDATA[
+select decode(display_name_1, null, 0, 1)
+	 + decode(display_name_2, null, 0, 1)
+	 + decode(display_name_3, null, 0, 1)
+	 + decode(display_name_4, null, 0, 1)
+	 + decode(display_name_5, null, 0, 1)	cnt
+  from is_py33
+ where 1=1
+   and org_id = #ssn_org_id#
+   and precede_num = #srch_precede_num#
+]]></select>
+
+<!-- 고정수당/공제 설정값 조회 -->
+<select id="selectOptionContent" parameterClass="CalculatorDto" resultClass="Py33Dto"><![CDATA[
+select *
+  from is_py33
+ where 1=1
+   and org_id = #ssn_org_id#
+   and precede_num = #srch_precede_num#
+]]></select>
+
+<!-- 급여관련항목 -->
+<select id="payMap" parameterClass="CalculatorDto" resultClass="cmmCodeDto"><![CDATA[
+select p.codeid 
+     , p.description
+  from is_sy02 p
+ where 1=1
+   and p.codetp      = 'S700'
+   and p.reference_1 = 'PAY'
+   and p.enabled     = 'Y'
+   and trunc(sysdate) between nvl(p.start_date_active, trunc(sysdate)) and nvl(p.end_date_active, trunc(sysdate))
+ order by p.display_num, p.codeid
+]]></select>
+
+<!-- 근태관련항목 -->
+<select id="dutyMap" parameterClass="CalculatorDto" resultClass="cmmCodeDto"><![CDATA[
+select p.codeid 
+     , p.description
+  from is_sy02 p
+ where 1=1
+   and p.codetp      = 'S700'
+   and p.reference_1 = 'DUTY'
+   and p.enabled     = 'Y'
+   and trunc(sysdate) between nvl(p.start_date_active, trunc(sysdate)) and nvl(p.end_date_active, trunc(sysdate))
+ order by p.display_num, p.codeid
+]]></select>
+
+<!-- 계산관련항목 -->
+<select id="calcMap" parameterClass="CalculatorDto" resultClass="cmmCodeDto"><![CDATA[
+select p.codeid 
+     , p.description
+  from is_sy02 p
+ where 1=1
+   and p.codetp      = 'S700'
+   and p.reference_1 = 'CALC'
+   and p.enabled     = 'Y'
+   and trunc(sysdate) between nvl(p.start_date_active, trunc(sysdate)) and nvl(p.end_date_active, trunc(sysdate))
+ order by p.display_num, p.codeid
+]]></select>
+
+<!-- 수당관련항목 -->
+<select id="allowMap" parameterClass="CalculatorDto" resultClass="cmmCodeDto"><![CDATA[
+select 'ALLOW.'||p.allowcd      codeid 
+     , p.allownm				description
+  from is_py21 p
+ where 1=1
+   and p.org_id = #ssn_org_id#
+   and substr(p.pay_class,1,1) not in ('A','G')
+]]><dynamic>
+<isNotEqual property="pay_class" compareValue="00" >
+   and (p.pay_class = '00' or p.pay_class = #pay_class#)
+</isNotEqual>
+</dynamic><![CDATA[
+ order by p.allownm
+]]></select>
+
+<!-- 대상자 저장 -->
+<insert id="insertDetail" parameterClass="CalculatorDto"><![CDATA[
+insert into bvk_pay_target_as (
+	 org_id
+	,compycd
+	,as_class
+	,as_cd
+	,precede_num1
+	,key_value1
+	,precede_num2
+	,key_value2
+	,precede_num3
+	,key_value3
+	,enabled_flag
+	,exec_yn
+	,last_update_date
+	,last_updated_by
+	,creation_date
+	,created_by
+	,last_update_login
+) values (
+	 #org_id#
+	,#compycd#
+	,'ALLOW'
+	,#as_cd#
+	,#precede_num1#
+	,#key_value1#
+	,#precede_num2#
+	,#key_value2#
+	,#precede_num3#
+	,#key_value3#
+	,#enabled_flag#
+	,#exec_yn#
+	,sysdate
+	,#ssn_user_id#
+	,sysdate
+	,#ssn_user_id#
+	,#ssn_user_id#
+)
+]]></insert>
+
+<!-- 대상자 업데이트 -->
+<update id="updateDetail" parameterClass="CalculatorDto"><![CDATA[
+update bvk_pay_target_as 
+   set precede_num1 		= #precede_num1#
+     , key_value1 			= #key_value1#
+     , precede_num2 		= #precede_num2#
+     , key_value2 			= #key_value2#
+     , precede_num3 		= #precede_num3#
+     , key_value3 			= #key_value3#
+     , enabled_flag			= #enabled_flag#
+     , exec_yn				= #exec_yn#
+	 , last_update_date	 	= sysdate
+	 , last_updated_by	 	= #ssn_user_id#
+	 , last_update_login 	= #ssn_user_id#
+ where rowid				= #row_id#
+]]></update>
+
+<!-- 대상자 삭제 -->
+<delete id="deleteDetail" parameterClass="CalculatorDto"><![CDATA[
+delete from bvk_pay_target_as
+ where rowid				= #row_id#
+]]></delete>
+
+<!-- 계산수식/로직 반영 -->
+<update id="updateFormula" parameterClass="CalculatorDto"><![CDATA[
+update is_py21
+   set formula				= #formula#
+	 , formula_hidden		= #formula_hidden#
+	 , formula_long			= #formula_long#
+	 , last_update_date	 	= sysdate
+	 , last_updated_by	 	= #ssn_user_id#
+	 , last_update_login 	= #ssn_user_id#
+ where 1=1
+   and rowid				= #row_id#
+]]></update>
+
+<!-- 계산수식 검증 -->
+<parameterMap id="valMap" class="map">
+	<parameter property="p_org_id" 			javaType="integer" jdbcType="NUMBER" mode="IN" />
+	<parameter property="p_formula" 		javaType="string" jdbcType="VARCHAR" mode="IN" />
+	<parameter property="x_err_msg" 		javaType="string" jdbcType="VARCHAR" mode="OUT" />
+</parameterMap>
+
+<procedure id="formulaValid" parameterMap="valMap">
+	{ call bvk_pay_calculate.formula_valid(?, ?, ?) }
+</procedure>
+
+<!-- 수당/공제 로직 생성 -->
+<parameterMap id="comMap" class="map">
+	<parameter property="p_org_id" 			javaType="integer" jdbcType="NUMBER" mode="IN" />
+	<parameter property="p_compycd" 		javaType="string" jdbcType="VARCHAR" mode="IN" />
+	<parameter property="p_as_class" 		javaType="string" jdbcType="VARCHAR" mode="IN" />
+	<parameter property="p_as_cd" 			javaType="string" jdbcType="VARCHAR" mode="IN" />
+	<!-- <parameter property="p_formula" 		javaType="string" jdbcType="VARCHAR" mode="IN" /> -->
+	<parameter property="x_err_msg" 		javaType="string" jdbcType="VARCHAR" mode="OUT" />
+</parameterMap>
+
+<procedure id="formulaCompile" parameterMap="comMap">
+	{ call bvk_pay_calculate.formula_compile(?, ?, ?, ?, ?) }
+</procedure>
+
+<!-- 생성된 로직보기 -->
+<select id="selectLogicList" parameterClass="CalculatorDto" resultClass="CalculatorDto">
+select text
+  from dba_source 
+ where type = 'PROCEDURE' 
+   and name = #object_name#
+</select>
+
+</sqlMap>
