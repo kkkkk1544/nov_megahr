@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+<meta charset="UTF-8">
+<title>Jquery 금액 자동 계산</title>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script type="text/javascript" src="/Example.Modal.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script type="text/javascript" src ="js/plugins/jquery-1.11.3.min.js"></script>
+<script src="app.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+<link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+<link type="text/css" rel="stylesheet" href="style.css">   
+</head>
+
+<body>
+	<div class="alert alert-primary top" role="alert">
+		<h3>금액 input 박스에 금액 입력시 하단에 금액 자동계산</h3>  <!-- <div class="top">배경사진-->
+	</div>
+
+	<table class="table table-bordered exam">
+		<tbody>
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">Classification</th>
+				<td class="w-70 pl-4"></td>
+			</tr>
+
+
+			<tr>
+				<th class="align-middle w-10 bg-light text-center"></th>
+				<td class="w-70 pl-4"><p type="text" style="margin-left: 180px">Amount</td>
+			</tr>
+
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">Headcount(2017-02-28)</th>
+				<td class="w-70 pl-4"><input type="text"
+					style="margin-left: 180px"></td>
+			</tr>
+
+			<!-- d9셀 출력  -->
+			<tr>
+				<th class="align-middle w-10 bg-light text-center"></th>
+				<td class="w-70 pl-4"><input type="text"
+					class="form-control num_only num_comma basic_sum" id="price_d_nine"
+					name="fn_type2_price" value="" placeholder=""
+					style="margin-left: 180px"></td>
+			</tr>
+
+
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">기본급①</th>
+				<td class="w-70 pl-4">
+                <input type="text" class="form-control num_only num_comma basic_sum Ordinary coneten"
+					id="price_person_basic" name="fn_type2_price" value=""placeholder="">
+      
+                <input type="text" class="form-control num_only num_comma basic_sum "
+					id="price_basic_one" name="fn_type2_price" value="" placeholder="">
+        
+                   <!--d10 <span class="coneten" value=""></span>
+                         <input type="text"
+					class="form-control num_only num_comma  d_threefive"
+					id="dten"  value=""   name="dthreefive"
+					placeholder="">
+                     -->
+                </td>
+			</tr>
+
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">교대 기본급②</th>
+				<td class="w-70 pl-4">
+                    <input type="text" class="form-control num_only num_comma basic_sum Ordinary coneone"
+					id="price_person_rotation" name="fn_type2_price" value="" placeholder="">
+                    <input type="text"	class="form-control num_only num_comma basic_sum"id="price_basic_two"
+                    name="fn_type2_price" value="" placeholder="">
+                    <span class="coneone" value=""></span>
+   
+                <!-- <input type="text"
+					class="form-control num_only num_comma   d_threefive "
+					id="doneone"  value=""   name="dthreefive"
+					placeholder="">-->
+             
+                </td>
+			</tr>
+
+
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">Basic ①+②</th>
+				<td class="w-70 pl-4"><input type="text"
+					class="form-control num_only num_comma basic_sum Ordinary"
+					id="price_basic_total" name="fn_type2_price" value=""
+					placeholder="" style="margin-left: 180px"></td>
+			</tr>
+
+			<tr class="">
+				<th class="align-middle w-10 bg-light text-center">Family</th>
+				<td class="w-70 pl-4">
+                    <input type="text"
+					class="form-control num_only num_comma num_sum Ordinary d_onethree_twozero " id="fn_type1_price"
+					name="fn_type1_price" value="" placeholder=""
+					style="margin-left: 180px">
+                    
+             <!--  <input type="text"
+					class="form-control num_only num_comma num_sum d_threefive " id="donethree"
+                    name="donethree"
+				value="" placeholder="">  -->
+         
+                <span class ="donethree" value=""></span>
+                </td>
+			</tr>
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">Longevity</th>
+
+				<td class="w-70 pl-4">
+					 <input type="text" class="form-control num_only num_comma num_sum Ordinary d_onethree_twozero  donefour" 
+                     id="fn_type2_price" name="fn_type2_price" value="" placeholder=""style="margin-left: 180px">
+              <!--<input type="text"
+					class="form-control num_only num_comma num_sum  d_threefive" id="donefour"
+                       name="donethree"
+				 value="" placeholder="">-->
+                </td>
+			</tr>
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">Position</th>
+
+				<td class="w-70 pl-4">
+                    <input type="text"
+					class="form-control num_only num_comma num_sum Ordinary d_onethree_twozero  donefive" id="fn_one_price"
+					name="fn_one_price" value="" placeholder=""
+					style="margin-left: 180px">
+                    
+             <!--        <input type="text"
+					class="form-control num_only num_comma num_sum " id="donefive"   name="dthreefive"
+					value="" placeholder=""
+					>-->
+
+                    <span class="donefive" value=""></span>
+                </td>
+			</tr>
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">Moten metal</th>
+
+				<td class="w-70 pl-4">
+                    <input type="text"
+					class="form-control num_only num_comma num_sum Ordinary d_onethree_twozero" id="fn_flw_price"
+					name="fn_flw_price" value="" placeholder=""
+					style="margin-left: 180px">
+                    
+                   <!-- <input type="text"
+					class="form-control num_only num_comma num_sum  d_threefive" id="donesix"
+					 value="" placeholder=""   name="dthreefive">-->
+       
+                <span class ="donesix" value=""></span></td>
+			</tr>
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">
+					Qualification</th>
+
+				<td class="w-70 pl-4">
+                    <input type="text"
+					class="form-control num_only num_comma num_sum Ordinary d_onethree_twozero doneseven" id="fn_flag_price"
+					name="fn_flag_price" value="" placeholder=""
+					style="margin-left: 180px">
+                    
+                     <!--   <input type="text"
+					class="form-control num_only num_comma num_sum " id="doneseven"
+					 value="" placeholder=""   name="dthreefive"	>-->
+			
+                <span class="doneseven" value=""></span></td>
+			</tr>
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">상근정비기술수당</th>
+
+				<td class="w-70 pl-4">
+                    <input type="text"
+					class="form-control num_only num_comma num_sum Ordinary d_onethree_twozero doneeight" id="fn_etc_price"
+					name="fn_etc_price" value="" placeholder=""
+					style="margin-left: 180px">
+                    
+                     <!--  <input type="text"
+					class="form-control num_only num_comma num_sum d_threefive " id="doneeight"
+					 value="" placeholder=""   name="dthreefive" > -->
+                <span class="doneeight" value=""></span>
+                
+                </td>
+			</tr>
+
+
+			<tr>
+				<th class="align-middle w-10 bg-light text-center">
+					Self-development</th>
+
+				<td class="w-70 pl-4">
+                    <input type="text"
+					class="form-control num_only num_comma num_sum Ordinary d_onethree_twozero dtwozero"
+					id="fn_change_price" name="fn_change_price" value="" placeholder=""
+					style="margin-left: 180px">
+                    
+                    <!--  <input type="text"
+					class="form-control num_only num_comma num_sum d_threefive"
+					id="dtwozero" value="" placeholder=""   name="dthreefive">-->
+				
+                <span class="dtwozero" value=""></span></td>
+			</tr>
+
+
+			<tr>
+				<th class="align-middle bg-light text-center p-2">Sub-total</th>
+
+				<td class="pl-4" colspan="2">
+                    <input type="text"
+					class="form-control text-right font-weight-bold num_only num_comma num_sum Ordinary"
+					id="fn_total" name="fn_total" value="" placeholder=""
+					style="margin-left: 180px">
+                   <!--  <input type="text"
+					class="form-control text-right font-weight-bold num_only num_comma num_sum d_threefive "
+					id="dtwoone"  name="dthreefive"  value="" placeholder="">-->
+                    <span id=id="dtwoone" ></span>
+                    
+                    <span id=id="fn_total" ></span>
+					<div id="han_money" class="text-right"></div></td>
+			</tr>
+
+			<tr>
+				<th class="align-middle bg-light text-center p-2">Ordinary
+					wages</th>
+				<td class="pl-4" colspan="2">
+				
+					<input type="text"
+					class="form-control text-right font-weight-bold num_only num_comma num_sum Ordinary_wages"
+					id="Ordinary_wages" name="Ordinary_wages_name" value="" placeholder=""
+                           style="margin-left: 180px"><span id="Ordinary_wages"></span>
+                    
+                    	<!--<input type="text"
+					class="form-control text-right font-weight-bold num_only num_comma num_sum 
+                    d_threefive"  name="dthreefive"
+					id="dtwotwo"  value="" placeholder="">-->
+					</div>
+				</td>
+			</tr>   
+        </tbody>
+    </table>
+
+            <table class="table table-bordered legal_table ">
+			<tr class="">
+				<th class="align-middle w-10 bg-light text-center" style=" padding-top: 32px;">
+                <p style="  padding-bottom:  2px;"> Legal allowance</p>
+                    
+                   <div style="padding-top: 5px;">
+                        <p> Overtime</p>
+                        <p> Communication 2H</p>
+                        <p> Weekly-holiday</p>
+                        <p> legal-holiday</p>
+                        <p> Lunar New Year, ChuSuck</p>
+                        <p> Night</p>
+                        <p>Holiday extended</p>
+                        <p>교대OT(4조3교대 9H)</p>
+                        <p>Annual leave</p>
+                        <p>Monthly leave</p>    
+                        <p>Sub-total</p>
+                        <p>Monthly wages</p>  
+                        <p>Bonus(800%)</p>      
+                    </div>  
+
+                    
+                </th>
+                	<td class="w-70 pl-4"
+					style="border-top-width: 119px; border-bottom-width: 44px;">
+                  <!--  <div style="padding-top: 69px;">-->
+
+                      <div style="padding-top: 9px;height: 429px;">
+                        
+                    <p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px" class="legal_sum" value="" id="d_two_three">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum"  value="" id="d_two_four">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px" class="legal_sum" value="" id="d_two_five">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum" value="" id="d_two_six">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px" class="legal_sum" value="" id="d_two_seven">
+					
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum" value="" id="d_two_eight">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum" value="" id="d_two_nine">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum" value=""value="" id="d_three_zero">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum"  value="" id="d_three_one">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum" value=""  id="d_three_two">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum" value="" id="d_three_three">
+					</p>
+					<p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum" value="" id="d_three_four">
+					</p>
+                  <!--      <p>
+						<input type="text" 
+							name="fn_type1_price" value="" placeholder=""
+							style="margin-left: 180px"  class="legal_sum" value="" id="d_35">
+					</p> -->
+                          
+                    </div>
+                    </td>
+                    </tr>
+                    </table>
+
+	           <!--  d34 Bonus(800%)-->
+                <table class="table table-bordered legal_table  bonustable">
+                    <tbody> <tr class="">
+
+                        <div style="display: inline-block">
+
+                            <p>Bonus(800%)</p>
+                            <p>Performance Bonus</p>
+                            <!-- <p style="margin-left: 400px;">Annual Gifts(35%+35%)</p>-->
+                            <p><button id="gifts"> Gifts(35%+35%)</button></p>
+                            <p>Summer holiday(30%)</p>
+                            <p>Lump sum</p>
+                            <p>Sub-total</p>
+                            <p>Total Monthly</p>
+                            <p>Total Annual</p>
+                            <p>Retirement pay</p>
+                            <p>Wage Total Monthly</p>
+                            <p>Wage Total annual</p>
+                            <p>Legal BenefitIndustrial Accident Insurance</p>
+                            <p>Legal BenefitNation Pension Insurance</p>
+                            <p>Legal BenefitMedical Insurance</p>
+                            <p>Legal BenefitLong Term Care Insurance</p>
+                            <p>Legal BenefitEmployment Insurance</p>
+                            <p>Legal Benefit Sub Total</p>
+                            <p>Food Expenses</p>
+                            <p>Scholarship</p>
+                            <p>Bus Expenses</p>
+                            <p>Team Meeting Expenses</p>
+                            <p>Medical support</p>
+                            <p>Clothing Expenses</p>
+                            <p>Sports Day(Athletic)</p>
+                            <p>Congratulation & Condolence</p>
+                            <p>Medical Checkup</p>
+                            <p>Annual Gifts(35%+35%)</p>
+                            <p>Summer holiday(30%)</p>
+                            <p>Reward</p>
+                            <p>Accident insurance</p>
+                            <p>Summer camp</p>
+                            <p>Picnic</p>
+                            <p>Birthday gift</p>
+                            <p>Club Support</p>
+                            <p>Interest on Housing Loan</p>
+                            <p>Sub Total</p>
+                            <p>Novelis Benefit</p>
+                            <p>Welfare Total</p>
+                            <p>Total Labor Cost</p>
+                            <p>Monthly</p>
+                            <p>Annual</p>
+                            <p>Total</p>
+                        </div>
+
+
+               
+                        <div style="display: inline-block;">  
+        
+             
+                <p>
+				<input type="text" name="fn_type1_price" value="" placeholder="" class="legal_sum dthreefive" value="" id="d_three_five"style="margin-left: 74px">
+                <input type="text"  value="" placeholder="" class="form-control text-right font-weight-bold num_only num_comma num_sum d_threefive" value="" id="dthreefive">
+               
+                <!-- <input type="submit" value="bonus값 조회">-->
+                <a href="bonuslastworking.html">bonus값 조회</a>    
+                <span class="dthreefive" ></span>
+				</p>
+                            
+					<p>
+				    <input type="text" name="fn_type1_price" value="" placeholder="" class="legal_sum   d_three_five" value="" id="d_threefive"style="margin-left: 74px">
+					</p>
+					
+                    <p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_three_six"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_three_seven"style="margin-left: 74px">
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_three_eight" style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_three_nine"style="margin-left: 74px">
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_zero"style="margin-left: 74px">
+					</p>
+                    
+                    	<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_one"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_two"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_three"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_four"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_five"style="margin-left: 74px">
+					</p>
+				    <p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_six"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_seven"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_eight"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_four_nine"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_zero"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_one"style="margin-left: 74px">
+					</p>
+                    <p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_two"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_three"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_four"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_five"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_six"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_seven"style="margin-left: 74px">
+					</p>
+                    <p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_eight"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_five_nine"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_zero"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_one"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_two"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_three"style="margin-left: 74px">
+					</p><p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_four"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_five"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_six"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_seven"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_eight"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_six_nine"style="margin-left: 74px">
+					</p>
+                    
+                    	<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_seven_zero"style="margin-left: 74px">
+					</p>
+
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_seven_one"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_seven_two"style="margin-left: 74px">
+					</p>
+					<p>
+						<input type="text" name="fn_type1_price" value="" placeholder=""
+							class="legal_sum" value="" id="d_seven_three"style="margin-left: 74px">
+					</p>
+				
+                  
+				</div>
+			</tr>
+        </tbody>           
+	</table>
+ 
+
+
+	<script>
+        
+        var Ordinary_wages= $('input#Ordinary_wages').val();
+        
+		$(function() {
+
+			$('input.num_only').on('keyup', function() {
+				var cnt = $(".exam input.num_sum").length;
+				console.log(cnt);
+
+				for (var i = 1; i < cnt; i++) {
+					var sum = parseInt($(this).val() || 0);
+					sum++
+					console.log(sum);
+				}
+
+				var sum1 = parseInt($("#fn_type1_price").val() || 0); // input 값을 가져오며 계산하지만 값이 없을경우 0이 대입된다  뒷부분에 ( || 0 ) 없을경우 합계에 오류가 생겨 NaN 값이 떨어진다
+				var sum2 = parseInt($("#fn_type2_price").val() || 0);
+				var sum3 = parseInt($("#fn_one_price").val() || 0);
+				var sum4 = parseInt($("#fn_flw_price").val() || 0);
+				var sum5 = parseInt($("#fn_flag_price").val() || 0);
+				var sum6 = parseInt($("#fn_etc_price").val() || 0);
+				var sum7 = parseInt($("#fn_change_price").val() || 0);
+                
+
+				var sum = sum1 + sum2 + sum3 + sum4 + sum5 + sum6 + sum7;
+				console.log(sum);
+                
+                
+				$("#fn_total").val(sum);    
+             
+              var ow =   parseInt($("#price_basic_total").val() || 0);  /*D10+D11  --->d12*/
+                var ow_2 =   parseInt($("#fn_total").val() || 0);
+              
+               var owg= ow+ow_2;
+             
+             //   $('#Ordinary_wages').val(sum);
+              
+             $('#Ordinary_wages').val(owg).attr("fn_total");
+			});
+		});
+
+        
+        //d_9 구하는 함수임!!!!
+		$(function() {
+			$('input.num_only')
+					.on(
+							'keyup',
+							function() {
+								var cnt = $(".exam input.basic_sum").length;
+								console.log(cnt);
+
+								for (var i = 1; i < cnt; i++) {
+									var sum = parseInt($(this).val() || 0);
+									sum++
+									console.log(sum);
+								}
+								var sum1 = parseInt($("#price_person_basic")
+										.val() * 240 || 0); /*var sum1_multiple=sum1*240;*/
+
+								var sum2 = parseInt($("#price_person_rotation")
+										.val() * 240 || 0);
+
+								var sum = sum1 + sum2;
+
+								console.log(sum);
+
+								$("#price_basic_one").val(sum1);
+								$("#price_basic_two").val(sum2);
+
+								$("#price_basic_total").val(sum); /* $("#price_d_nine").val(sum/30/8);  */
+
+								var salary_dnine = sum / 30 / 8;
+								$("#price_d_nine").val(salary_dnine);
+
+							});
+	                   	});
+        
+   
+        
+          /*  Legal allowance  subtotal 단순합계함수*/    
+            $(function() {
+
+                $('input.legal_sum').on('keyup', function() {
+                    var cnt = $(".legal_table input.legal_sum").length;    //legal_sum은 class임
+                    console.log(cnt);
+
+                    for (var i = 1; i < cnt; i++) {
+                        var legal = parseInt($(this).val() || 0);
+                        legal++;
+                        console.log(legal);
+                    }
+
+                    var d_23 = parseInt($("#d_23").val() || 0); // input 값을 가져오며 계산하지만 값이 없을경우 0이 대입된다  뒷부분에 ( || 0 ) 없을경우 합계에 오류가 생겨 NaN 값이 떨어진다
+                    var d_24 = parseInt($("#d_24").val() || 0);
+                    var d_25 = parseInt($("#d_25").val() || 0);
+                    var d_26 = parseInt($("#d_26").val() || 0);
+                    var d_27 = parseInt($("#d_27").val() || 0);
+                    var d_28 = parseInt($("#d_28").val() || 0);
+                    var d_29 = parseInt($("#d_29").val() || 0);
+                    var d_30 = parseInt($("#d_30").val() || 0);
+                    var d_31 = parseInt($("#d_31").val() || 0);
+                    var d_32 = parseInt($("#d_32").val() || 0);
+
+
+
+                var d_33=  d_23+  d_24 +  d_25+   d_26+   d_27+   d_28+   d_29+  d_30+  d_31+  d_32;
+
+                    console.log(d_33);
+                    $("#d_33").val(d_33);
+ 
+        /*
+        d_23 핝줄값 함수
+        (SUM(D13:D20)+D10+D11  )  -D17-D18-D19*8/12   --->d35
+        */
+        
+             /*  Bonus(800%) d35
+
+                $(function(){
+
+            $('input.bonustable').on('keyup',function(){
+                      var cntb = $(".bonustable input.d_threefive").length;     
+                      console.log(cntb);
+
+              for( var i=1; i< cntb; i++){
+                 var sumb = parseInt($(this).val() || 0 );
+                 sumb++
+                console.log(sumb);
+                    }
+
+                    var sumb1 = parseInt($('#dten').val() || 0 ); // input 값을 가져오며 계산하지만 값이 없을경우 0이 대입된다  뒷부분에 ( || 0 ) 없을경우 합계에 오류가 생겨 NaN 값이 떨어진다
+                    var sumb2 = parseInt($("#doneone").val() || 0);
+                    var sumb3 = parseInt($("#donethree").val() || 0);
+                    var sumb4 = parseInt($("#donefour").val() || 0);
+                    var sumb5 = parseInt($("#donefive").val() || 0);
+                    var sumb6 = parseInt($("#donesix").val() || 0);
+                    var sumb7 = parseInt($("#doneseven").val() || 0);
+         var sumb8 = parseInt($("#doneeight").val() || 0);
+         var sumb9 = parseInt($("#dtwozero").val() || 0);
+         var sumb10 = parseInt($("#dtwotwo").val() || 0);
+
+
+        var sumb = parseInt($("#dthreefive").val() || 0);
+
+
+
+
+            var sumb = sum1 + sum2 + sum3 + sum4 + sum5 + sum6 + sum7+ sum8+ sum9+ sum10;
+    
+    
+            var jb = $( 'input#dthreefive' ).val(sumb);
+
+                    console.log(jb);
+                    $("#dthreefive").val(sumb);
+                    $(".dthreefive").val(sumb);
+                    $(".d_threefive").val(sumb).attr(id);
+                });
+            });
+      */                       
+                                
+                
+                         /* 8/12 -->0.66
+                          D10+D11  --->d12 --->var ow
+                          (c10+c11)*240-->D10+D11  --->d12
+                            (SUM(D13:D20) --->d21
+                            SUM(D21+D12)  -->d22
+                            (D22-D17-D18-D19)*8/12   -->d35
+                            ((SUM(D13:D20)+D10+D11  )  -D17-D18-D19)*8/12   --->d35
+                            ((SUM(D13:D20)+(c10+c11)*240)  -D17-D18-D19)*8/12   --->d35         
+                          */
+                                                             
+    
+        
+                /*        
+                D10+D11  --->d12
+                (SUM(D13:D20)+D10+D11  )  -D17-D18-D19*8/12   --->d35
+                0.75   --->b4
+
+                        */
+      
+	</script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<meta charset="UTF-8">
+<title>bouns부분 따로 생성0320</title>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+<script type="text/javascript" src="/Example.Modal.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<script type="text/javascript" src ="js/plugins/jquery-1.11.3.min.js"></script>
+</head>
+
+<body>
+	<div class="alert alert-primary" role="alert">
+		<h3>금액 input 박스에 금액 입력시 하단에 금액 자동계산</h3>
+	</div>
+
+
+	<!--  d34 Bonus(800%)-->
+
+	<table class="table table-bordered legal_table  bonustable">
+		<tr class="">
+		<p>Bonus(800%)</p>   
+		                   
+		<div style="display: inline-block;">  
+		<!--<p><input type="text" name="fn_type1_price" value="" placeholder=""class="legal_sum dthreefive" value="" id="d_three_five"style="margin-left: 74px"> -->  
+		<p><input type="text" class="form-control num_only num_comma  num_sum    d_threefive" id="dten"  name="dthreefive" value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma  num_sum  d_threefive " id="doneone" name="dthreefive"  value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum d_threefive " id="donethree" name="donethree" value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum  d_threefive" id="donefour" name="donethree" value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum  d_threefive "  id="donefive" name="dthreefive" value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum  d_threefive" id="donesix"  name="dthreefive" value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum  d_threefive"  id="doneseven"  name="dthreefive" value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum d_threefive " id="doneeight"  name="dthreefive"value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum d_threefive" id="dtwozero" name="dthreefive" value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum d_threefive " id="dtwoone" name="dthreefive" value="" placeholder="">
+		<p><input type="text" class="form-control num_only num_comma num_sum d_threefive" id="dtwotwo" name="dthreefive"  value="" placeholder="">
+		<p><span class="dtwotwo"></span>
+		<p><input type="text"  value="" placeholder=""class="form-control text-right font-weight-bold num_only num_comma num_sum d_threefive" value="" id="dthreefive">
+		<span class="dthreefive" ></span>
+		 </div>
+		 </tr>
+		
+				<!--원래 bouns칸
+                    <p>
+			<input type="text" name="fn_type1_price" value="" placeholder=""class="legal_sum   d_three_five" value="" id="d_threefive"style="margin-left: 74px">
+					</p>-->
+	     
+	</table>
+
+	<script>
+           
+            /*Bonus(800%) d35*/
+	              
+          $(function(){
+			$('input.num_only').on('keyup',function(){
+			          var cnt = $(".bonustable input.d_threefive").length;     
+			          console.log(cnt);
+			          
+			  for( var i=1; i< cnt; i++){
+			     var sum = parseInt($(this).val() || 0 );
+			     sum++
+			    console.log(sum);
+			  }
+			  
+			var sum1 = parseInt($('#dten').val() || 0 ); // input 값을 가져오며 계산하지만 값이 없을경우 0이 대입된다  뒷부분에 ( || 0 ) 없을경우 합계에 오류가 생겨 NaN 값이 떨어진다
+			 var sum2 = parseInt($("#doneone").val() || 0);
+			var sum3 = parseInt($("#donethree").val() || 0);
+			 var sum4 = parseInt($("#donefour").val() || 0);
+			 var sum5 = parseInt($("#donefive").val() || 0);
+			 var sum6 = parseInt($("#donesix").val() || 0);
+			/*var sum7 = parseInt($("#doneseven").val() || 0);
+			 var sum8 = parseInt($("#doneeight").val() || 0);
+			 var sum9 = parseInt($("#dtwozero").val() || 0);*/
+			 var sum10 = parseInt($("#dtwotwo").val() || 0);
+			var sum=parseInt($("#dthreefive").val() || 0);
+			 var sum = sum1 + sum2 + sum3 + sum4 + sum5 + sum6 + sum10;
+                
+             var sum_division=sum*8/12; 
+			 var jb = $('input#dthreefive').val(sum_division);
+                
+			        });
+			});
+	     
+	                         /* 8/12 -->0.66
+	                          D10+D11  --->d12 --->var ow
+	                          (c10+c11)*240-->D10+D11  --->d12
+	                            (SUM(D13:D20) --->d21
+	                            SUM(D21+D12)  -->d22
+	                            (D22-D17-D18-D19)*8/12   -->d35
+	                            ((SUM(D13:D20)+D10+D11  )  -D17-D18-D19)*8/12   --->d35
+	                            ((SUM(D13:D20)+(c10+c11)*240)  -D17-D18-D19)*8/12   --->d35         
+	                          */
+					   
+							/*        
+							D10+D11  --->d12
+							(SUM(D13:D20)+D10+D11  )  -D17-D18-D19*8/12   --->d35
+							0.75   --->b4 
+							        */
+			
+	</script>
+
+
+</body>
+</html>
+
